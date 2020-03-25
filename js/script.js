@@ -12,7 +12,7 @@ function compareGuesses(humanGuess,computerGuess,secretTargetNum) {
     let humanCloseValue = Math.abs(secretTargetNum - humanGuess);
     let computerCloseValue = Math.abs(secretTargetNum-computerGuess);
     if (humanGuess > 9) {
-        alert("Your number is oput of range !");
+        alert("Your number is out of range!.");
     }
     if (humanCloseValue<computerCloseValue || humanCloseValue===computerCloseValue) {
         return true;
