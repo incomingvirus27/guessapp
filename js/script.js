@@ -1,100 +1,34 @@
-let target;
-
-const humanGuessInput = document.getElementById('human-guess');
-
-const roundNumberDisplay = document.getElementById('round-number');
-
-const computerGuessDisplay = document.getElementById('computer-guess');
-const humanScoreDisplay = document.getElementById('human-score');
-const computerScoreDisplay = document.getElementById('computer-score');
-const targetNumberDisplay = document.getElementById('target-number');
-const computerWinsDisplay = document.getElementById('computer-wins');
-
-const guessButton = document.getElementById('guess');
-const nextRoundButton = document.getElementById('next-round')
-
-guessButton.addEventListener('click', function (){
-  // Generate the target value
-  target = generateTarget();
-  // Retrieve the player's guess
-  const currentHumanGuess = humanGuessInput.value;
-  // Make a random 'computer guess'
-  const computerGuess = Math.floor(Math.random() * 10);
-
-  // Display the computer guess and the target
-  computerGuessDisplay.innerText = computerGuess;
-  targetNumberDisplay.innerText = target;
-  
-  // Determine if the human or computer wins:
-  const humanIsWinner = compareGuesses(currentHumanGuess, computerGuess, target)
-  const winner = humanIsWinner ? 'human' : 'computer'
-
-  // Update the correct score:
-  updateScore(winner);
-
-  // Display the winner
-  if (humanIsWinner) {
-    guessButton.innerText = 'You Win!!!!!';
-    guessButton.classList.toggle('winning-text')
-  } else {
-    computerWinsDisplay.innerText = 'Computer Wins!!!';
-  }
-
-  // winnerDisplay.innerText = humanIsWinner ? 'You win!' : 'Computer wins!';
-
-  // Display the current scores:
-  humanScoreDisplay.innerText = humanScore;
-  computerScoreDisplay.innerText = computerScore;
-  
-  // Set the correct disabled state for the buttons
-  guessButton.setAttribute('disabled', true)
-  nextRoundButton.removeAttribute('disabled');
-});
-
-nextRoundButton.addEventListener('click', function() {
-  // Increase the round number
-  advanceRound();
-  // Display the new round number
-  roundNumberDisplay.innerText = currentRoundNumber;
-
-  // Set the correct disabled state for the buttons
-  nextRoundButton.setAttribute('disabled', true);
-  guessButton.removeAttribute('disabled');
-
-  // Reset the guess input box and the target number display:
-  targetNumberDisplay.innerText = '?';
-  guessButton.innerText = 'Make a Guess';
-  humanGuessInput.value = '';
-  computerGuessDisplay.innerText = '?';
-  computerWinsDisplay.innerText = '';
-  guessButton.classList.remove('winning-text');
-});
-
-const addButton = document.getElementById('add');
-const subtractButton = document.getElementById('subtract');
-
-
-addButton.addEventListener('click', function (){
-  humanGuessInput.value = +humanGuessInput.value + 1;
-  handleValueChange(humanGuessInput.value);
-});
-
-subtractButton.addEventListener('click', function(){
-  humanGuessInput.value = +humanGuessInput.value - 1;
-  handleValueChange(humanGuessInput.value);
-});
-
-const handleValueChange = function (value) {
-  if (value > 0 && value <= 9) {
-    subtractButton.removeAttribute('disabled');
-    addButton.removeAttribute('disabled');
-  } else if (value > 9) {
-    addButton.setAttribute('disabled', true);
-  } else if (value <= 0) {
-    subtractButton.setAttribute('disabled', true);
-  }
+let humanScore = 0;
+let computerScore = 0;
+let currentRoundNumber = 1;
+// Write your code below:
+function generateTarget(){
+  randomNum = Math.floor(Math.random()*10);
+  return randomNum;
 }
-
-humanGuessInput.addEventListener('input', function(e) {
-  handleValueChange(e.target.value);
-});
+// The function that be call each round to determine which guess is closest to the target number.
+// starts here
+function compareGuesses(humanGuess,computerGuess,secretTargetNum) {
+    let humanCloseValue = Math.abs(secretTargetNum - humanGuess);
+    let computerCloseValue = Math.abs(secretTargetNum-computerGuess);
+    if (humanGuess > 9) {
+        alert("Your number is oput of range !");
+    }
+    if (humanCloseValue<computerCloseValue || humanCloseValue===computerCloseValue) {
+        return true;
+    }
+    else {
+        return false;
+  }
+  }
+function updateScore(scores){
+    if (scores=='human') {
+       humanScore++;
+    }
+    else if(scores == 'computer') {
+       computerScore++;
+    }
+   }
+   function  advanceRound() {
+       currentRoundNumber++;
+   }
